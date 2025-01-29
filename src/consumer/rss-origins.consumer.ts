@@ -41,6 +41,8 @@ export class RssOriginConsumer extends WorkerHost {
           data: item,
           rssOrigin: job.data,
           url: item.link!,
+          title: item.title,
+          content: item.content,
         });
         await this.rssItemQueue.add('translateRss', result, {
           attempts: 3,

@@ -40,6 +40,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "3.731.1",
     "@aws-sdk/s3-request-presigner": "3.731.1",
+    "@mendable/firecrawl-js": "^1.15.7",
     "@nestjs/bullmq": "^11.0.1",
     "@nestjs/common": "10.4.15",
     "@nestjs/config": "4.0.0",

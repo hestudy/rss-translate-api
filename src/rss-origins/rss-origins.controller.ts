@@ -1,17 +1,15 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { RssOriginsService } from './rss-origins.service';
-import { CreateRssOriginDto } from './dto/create-rss-origin.dto';
-import { UpdateRssOriginDto } from './dto/update-rss-origin.dto';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -19,14 +17,18 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { RssOrigin } from './domain/rss-origin';
-import { AuthGuard } from '@nestjs/passport';
 import {
   InfinityPaginationResponse,
   InfinityPaginationResponseDto,
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
+import { RssOrigin } from './domain/rss-origin';
+import { CreateRssOriginDto } from './dto/create-rss-origin.dto';
 import { FindAllRssOriginsDto } from './dto/find-all-rss-origins.dto';
+import { UpdateRssOriginDto } from './dto/update-rss-origin.dto';
+import { RssOriginsService } from './rss-origins.service';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Job, Queue } from 'bullmq';
 
 @ApiTags('Rssorigins')
 @ApiBearerAuth()
@@ -36,7 +38,10 @@ import { FindAllRssOriginsDto } from './dto/find-all-rss-origins.dto';
   version: '1',
 })
 export class RssOriginsController {
-  constructor(private readonly rssOriginsService: RssOriginsService) {}
+  constructor(
+    private readonly rssOriginsService: RssOriginsService,
+    @InjectQueue('rssItem') private rssItemQueue: Queue,
+  ) {}
 
   @Post()
   @ApiCreatedResponse({
@@ -44,6 +49,12 @@ export class RssOriginsController {
   })
   create(@Body() createRssOriginDto: CreateRssOriginDto) {
     return this.rssOriginsService.create(createRssOriginDto);
+  }
+
+  @Get('test')
+  async test() {
+    const job: Job = await this.rssItemQueue.getJob('1');
+    await job.retry('failed');
   }
 
   @Get()

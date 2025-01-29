@@ -6,6 +6,7 @@ import { RelationalRssOriginPersistenceModule } from './infrastructure/persisten
 import { RssOriginsController } from './rss-origins.controller';
 import { RssOriginsService } from './rss-origins.service';
 import { RelationalRssItemPersistenceModule } from '../rss-items/infrastructure/persistence/relational/relational-persistence.module';
+import { RssItemConsumer } from '../consumer/rss-items.consumer';
 
 @Module({
   imports: [
@@ -20,7 +21,12 @@ import { RelationalRssItemPersistenceModule } from '../rss-items/infrastructure/
     }),
   ],
   controllers: [RssOriginsController],
-  providers: [RssOriginsService, RssOriginConsumer, RssItemsService],
+  providers: [
+    RssOriginsService,
+    RssOriginConsumer,
+    RssItemsService,
+    RssItemConsumer,
+  ],
   exports: [RssOriginsService, RelationalRssOriginPersistenceModule],
 })
 export class RssOriginsModule {}
