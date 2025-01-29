@@ -29,7 +29,7 @@ DATABASE_URL=
 
 REDIS_URL=
 
-FIRECRAWL_URL=
+FIRECRAWL_URL=https://api.firecrawl.dev
 
 # Support "local", "s3", "s3-presigned"
 FILE_DRIVER=local
