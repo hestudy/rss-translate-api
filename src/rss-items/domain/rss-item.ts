@@ -30,12 +30,6 @@ export class RssItem {
     type: () => String,
     nullable: false,
   })
-  data: string;
-
-  @ApiProperty({
-    type: () => String,
-    nullable: false,
-  })
   url: string;
 
   @ApiProperty({

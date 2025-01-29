@@ -46,8 +46,6 @@ export class RssItemsService {
 
       title: createRssItemDto.title,
 
-      data: createRssItemDto.data,
-
       url: createRssItemDto.url,
     });
   }
@@ -107,8 +105,6 @@ export class RssItemsService {
       content: updateRssItemDto.content,
 
       title: updateRssItemDto.title,
-
-      data: updateRssItemDto.data,
 
       url: updateRssItemDto.url,
     });
