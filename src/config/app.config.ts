@@ -49,7 +49,25 @@ class EnvironmentVariablesValidator {
   APP_HEADER_LANGUAGE: string;
 
   @IsUrl()
+  @IsOptional()
   FIRECRAWL_URL: string;
+
+  @IsString()
+  @IsOptional()
+  SCRAPY_FULL: string;
+
+  @IsString()
+  OPENAI_API_KEY: string;
+
+  @IsString()
+  @IsOptional()
+  OPENAI_BASE_URL: string;
+
+  @IsString()
+  OPENAI_MODEL: string;
+
+  @IsString()
+  TRANSLATE_LANGUAGE: string;
 }
 
 export default registerAs<AppConfig>('app', () => {
@@ -69,6 +87,11 @@ export default registerAs<AppConfig>('app', () => {
     apiPrefix: process.env.API_PREFIX || 'api',
     fallbackLanguage: process.env.APP_FALLBACK_LANGUAGE || 'en',
     headerLanguage: process.env.APP_HEADER_LANGUAGE || 'x-custom-lang',
-    fireCrawlUrl: process.env.FIRECRAWL_URL!,
+    fireCrawlUrl: process.env.FIRECRAWL_URL || '',
+    scrapyFull: (process.env.SCRAPY_FULL || 'true') === 'true',
+    openaiApiKey: process.env.OPENAI_API_KEY || '',
+    openaiBaseUrl: process.env.OPENAI_BASE_URL || '',
+    openaiModel: process.env.OPENAI_MODEL || '',
+    translateLanguage: process.env.TRANSLATE_LANGUAGE || '',
   };
 });

@@ -54,7 +54,7 @@ export class RssOriginsController {
   @Get('test')
   async test() {
     const job: Job = await this.rssItemQueue.getJob('1');
-    await job.retry('failed');
+    await job.retry('completed');
   }
 
   @Get()

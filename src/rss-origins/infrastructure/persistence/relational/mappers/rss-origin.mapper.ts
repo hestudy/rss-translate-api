@@ -8,6 +8,7 @@ export class RssOriginMapper {
     domainEntity.job = raw.job;
 
     domainEntity.data = raw.data;
+    domainEntity.items = raw.items;
 
     domainEntity.url = raw.url;
 

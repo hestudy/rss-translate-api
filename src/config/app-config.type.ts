@@ -8,5 +8,10 @@ export type AppConfig = {
   apiPrefix: string;
   fallbackLanguage: string;
   headerLanguage: string;
-  fireCrawlUrl: string;
+  fireCrawlUrl?: string;
+  scrapyFull?: boolean;
+  openaiApiKey: string;
+  openaiBaseUrl: string;
+  openaiModel: string;
+  translateLanguage: string;
 };

@@ -3,6 +3,12 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class RssItem {
   @ApiProperty({
+    type: () => Date,
+    nullable: true,
+  })
+  pubDate?: Date | null;
+
+  @ApiProperty({
     type: () => RssOrigin,
     nullable: false,
   })
@@ -12,7 +18,7 @@ export class RssItem {
     type: () => Object,
     nullable: false,
   })
-  data: object;
+  data: any;
 
   @ApiProperty({
     type: () => String,

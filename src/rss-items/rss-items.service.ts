@@ -22,6 +22,7 @@ export class RssItemsService {
   async create(createRssItemDto: CreateRssItemDto) {
     // Do not remove comment below.
     // <creating-property />
+
     const rssOriginObject = await this.rssOriginService.findById(
       createRssItemDto.rssOrigin.id,
     );
@@ -38,6 +39,8 @@ export class RssItemsService {
     return this.rssItemRepository.create({
       // Do not remove comment below.
       // <creating-property-payload />
+      pubDate: createRssItemDto.pubDate,
+
       rssOrigin,
 
       data: createRssItemDto.data,
@@ -78,6 +81,7 @@ export class RssItemsService {
   ) {
     // Do not remove comment below.
     // <updating-property />
+
     let rssOrigin: RssOrigin | undefined = undefined;
 
     if (updateRssItemDto.rssOrigin) {
@@ -98,6 +102,8 @@ export class RssItemsService {
     return this.rssItemRepository.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
+      pubDate: updateRssItemDto.pubDate,
+
       rssOrigin,
 
       data: updateRssItemDto.data,
@@ -119,5 +125,9 @@ export class RssItemsService {
     rssOrigin: RssItem['rssOrigin']['id'],
   ): Promise<number> {
     return this.rssItemRepository.countByUrlAndRssOrigin(url, rssOrigin);
+  }
+
+  findByRssOrigin(id: RssItem['rssOrigin']['id']): Promise<RssItem[]> {
+    return this.rssItemRepository.findByRssOrigin(id);
   }
 }

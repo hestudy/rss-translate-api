@@ -18,6 +18,8 @@ export abstract class RssItemRepository {
 
   abstract findByIds(ids: RssItem['id'][]): Promise<RssItem[]>;
 
+  abstract findByRssOrigin(id: RssItem['rssOrigin']['id']): Promise<RssItem[]>;
+
   abstract update(
     id: RssItem['id'],
     payload: DeepPartial<RssItem>,

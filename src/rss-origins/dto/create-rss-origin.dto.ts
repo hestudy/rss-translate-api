@@ -25,7 +25,7 @@ export class CreateRssOriginDto {
   })
   @IsOptional()
   @IsObject()
-  data?: object | null;
+  data?: any | null;
 
   @ApiProperty({
     required: true,

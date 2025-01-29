@@ -30,6 +30,9 @@ import { RssOriginsModule } from './rss-origins/rss-origins.module';
 
 import { BullModule } from '@nestjs/bullmq';
 import { RssItemsModule } from './rss-items/rss-items.module';
+import { TranslateModule } from './translate/translate.module';
+import { ScrapyModule } from './scrapy/scrapy.module';
+import { RssModule } from './rss/rss.module';
 
 @Module({
   imports: [
@@ -82,6 +85,9 @@ import { RssItemsModule } from './rss-items/rss-items.module';
     MailModule,
     MailerModule,
     HomeModule,
+    TranslateModule,
+    ScrapyModule,
+    RssModule,
   ],
 })
 export class AppModule {}

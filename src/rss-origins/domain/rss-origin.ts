@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { RssItem } from '../../rss-items/domain/rss-item';
 
 export class RssOrigin {
   @ApiProperty({
@@ -11,7 +12,13 @@ export class RssOrigin {
     type: () => Object,
     nullable: true,
   })
-  data?: object | null;
+  data?: any | null;
+
+  @ApiProperty({
+    type: () => Array,
+    nullable: true,
+  })
+  items?: RssItem[];
 
   @ApiProperty({
     type: () => String,

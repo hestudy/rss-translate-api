@@ -14,7 +14,17 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
   name: 'rss_item',
 })
 export class RssItemEntity extends EntityRelationalHelper {
-  @ManyToOne(() => RssOriginEntity, { eager: true, nullable: false })
+  @Column({
+    nullable: true,
+    type: Date,
+  })
+  pubDate?: Date | null;
+
+  @ManyToOne(() => RssOriginEntity, (e) => e.items, {
+    eager: true,
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   rssOrigin: RssOriginEntity;
 
   @Column({

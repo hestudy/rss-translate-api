@@ -90,4 +90,18 @@ export class RssItemRelationalRepository implements RssItemRepository {
       },
     });
   }
+
+  async findByRssOrigin(id: RssItem['rssOrigin']['id']): Promise<RssItem[]> {
+    return await this.rssItemRepository.find({
+      where: {
+        rssOrigin: {
+          id,
+        },
+      },
+      take: 20,
+      order: {
+        pubDate: 'DESC',
+      },
+    });
+  }
 }

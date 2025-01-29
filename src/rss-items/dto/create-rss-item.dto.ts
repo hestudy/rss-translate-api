@@ -7,6 +7,7 @@ import {
   // decorators here
   IsString,
   ValidateNested,
+  IsDate,
 } from 'class-validator';
 
 import {
@@ -17,9 +18,19 @@ import {
 import {
   // decorators here
   Type,
+  Transform,
 } from 'class-transformer';
 
 export class CreateRssItemDto {
+  @ApiProperty({
+    required: false,
+    type: () => Date,
+  })
+  @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  pubDate?: Date | null;
+
   @ApiProperty({
     required: true,
     type: () => RssOriginDto,

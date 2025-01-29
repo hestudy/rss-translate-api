@@ -1,14 +1,20 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTable1738153389734 implements MigrationInterface {
-  name = 'CreateTable1738153389734';
+export class CreateAllTable1738171385155 implements MigrationInterface {
+  name = 'CreateAllTable1738171385155';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "role" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "rss_origin" ("job" character varying, "data" json, "url" character varying NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_b7daf15adcbfd8c70ea870f24c9" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "rss_item" ("pubDate" TIMESTAMP, "data" json NOT NULL, "content" character varying, "title" character varying, "url" character varying NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "rssOriginId" uuid NOT NULL, CONSTRAINT "PK_09289f2d16c1560380e085feb20" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "role" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "file" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "path" character varying NOT NULL, CONSTRAINT "PK_36b46d232307066b3a2c9ea3a1d" PRIMARY KEY ("id"))`,
@@ -32,10 +38,7 @@ export class CreateTable1738153389734 implements MigrationInterface {
       `CREATE INDEX "IDX_3d2f174ef04fb312fdebd0ddc5" ON "session" ("userId") `,
     );
     await queryRunner.query(
-      `CREATE TABLE "rss_origin" ("job" character varying, "data" json, "url" character varying NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_b7daf15adcbfd8c70ea870f24c9" PRIMARY KEY ("id"))`,
-    );
-    await queryRunner.query(
-      `CREATE TABLE "rss_item" ("data" json NOT NULL, "content" character varying, "title" character varying, "url" character varying NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "rssOriginId" uuid NOT NULL, CONSTRAINT "PK_09289f2d16c1560380e085feb20" PRIMARY KEY ("id"))`,
+      `ALTER TABLE "rss_item" ADD CONSTRAINT "FK_e3af98ee40c23c1cef4159043bf" FOREIGN KEY ("rssOriginId") REFERENCES "rss_origin"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
       `ALTER TABLE "user" ADD CONSTRAINT "FK_75e2be4ce11d447ef43be0e374f" FOREIGN KEY ("photoId") REFERENCES "file"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
@@ -49,15 +52,9 @@ export class CreateTable1738153389734 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "session" ADD CONSTRAINT "FK_3d2f174ef04fb312fdebd0ddc53" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
-    await queryRunner.query(
-      `ALTER TABLE "rss_item" ADD CONSTRAINT "FK_e3af98ee40c23c1cef4159043bf" FOREIGN KEY ("rssOriginId") REFERENCES "rss_origin"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "rss_item" DROP CONSTRAINT "FK_e3af98ee40c23c1cef4159043bf"`,
-    );
     await queryRunner.query(
       `ALTER TABLE "session" DROP CONSTRAINT "FK_3d2f174ef04fb312fdebd0ddc53"`,
     );
@@ -70,8 +67,9 @@ export class CreateTable1738153389734 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "user" DROP CONSTRAINT "FK_75e2be4ce11d447ef43be0e374f"`,
     );
-    await queryRunner.query(`DROP TABLE "rss_item"`);
-    await queryRunner.query(`DROP TABLE "rss_origin"`);
+    await queryRunner.query(
+      `ALTER TABLE "rss_item" DROP CONSTRAINT "FK_e3af98ee40c23c1cef4159043bf"`,
+    );
     await queryRunner.query(
       `DROP INDEX "public"."IDX_3d2f174ef04fb312fdebd0ddc5"`,
     );
@@ -87,7 +85,9 @@ export class CreateTable1738153389734 implements MigrationInterface {
     );
     await queryRunner.query(`DROP TABLE "user"`);
     await queryRunner.query(`DROP TABLE "file"`);
-    await queryRunner.query(`DROP TABLE "status"`);
     await queryRunner.query(`DROP TABLE "role"`);
+    await queryRunner.query(`DROP TABLE "rss_item"`);
+    await queryRunner.query(`DROP TABLE "rss_origin"`);
+    await queryRunner.query(`DROP TABLE "status"`);
   }
 }

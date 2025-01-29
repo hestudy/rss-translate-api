@@ -6,10 +6,10 @@ import {
 } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job, Queue } from 'bullmq';
-import { RssOrigin } from '../rss-origins/domain/rss-origin';
-import { RssOriginsService } from '../rss-origins/rss-origins.service';
 import Parser from 'rss-parser';
 import { RssItemsService } from '../rss-items/rss-items.service';
+import { RssOrigin } from '../rss-origins/domain/rss-origin';
+import { RssOriginsService } from '../rss-origins/rss-origins.service';
 
 @Processor('rssOrigin', {
   concurrency: 1,
@@ -43,6 +43,7 @@ export class RssOriginConsumer extends WorkerHost {
           url: item.link!,
           title: item.title,
           content: item.content,
+          pubDate: item.pubDate ? new Date(item.pubDate) : null,
         });
         await this.rssItemQueue.add('translateRss', result, {
           attempts: 3,

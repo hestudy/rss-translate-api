@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
+  OneToMany,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
+import { RssItemEntity } from '../../../../../rss-items/infrastructure/persistence/relational/entities/rss-item.entity';
 
 @Entity({
   name: 'rss_origin',
@@ -31,6 +33,9 @@ export class RssOriginEntity extends EntityRelationalHelper {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToMany(() => RssItemEntity, (e) => e.rssOrigin)
+  items: RssItemEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
