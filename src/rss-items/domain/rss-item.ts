@@ -9,10 +9,10 @@ export class RssItem {
   rssOrigin: RssOrigin;
 
   @ApiProperty({
-    type: () => String,
+    type: () => Object,
     nullable: false,
   })
-  data: string;
+  data: object;
 
   @ApiProperty({
     type: () => String,

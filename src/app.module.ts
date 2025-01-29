@@ -29,9 +29,21 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
 import { RssOriginsModule } from './rss-origins/rss-origins.module';
 
 import { RssItemsModule } from './rss-items/rss-items.module';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService<AllConfigType>) => {
+        return {
+          connection: {
+            url: configService.get('database.redisUrl', { infer: true }),
+          },
+        };
+      },
+    }),
     RssItemsModule,
     RssOriginsModule,
     ConfigModule.forRoot({

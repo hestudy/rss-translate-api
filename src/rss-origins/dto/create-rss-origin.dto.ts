@@ -1,8 +1,8 @@
 import {
-  // decorators here
-
-  IsString,
+  IsObject,
   IsOptional,
+  // decorators here
+  IsString,
 } from 'class-validator';
 
 import {
@@ -17,7 +17,15 @@ export class CreateRssOriginDto {
   })
   @IsOptional()
   @IsString()
-  data?: string | null;
+  job?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => Object,
+  })
+  @IsOptional()
+  @IsObject()
+  data?: object | null;
 
   @ApiProperty({
     required: true,

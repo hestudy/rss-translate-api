@@ -5,7 +5,13 @@ export class RssOrigin {
     type: () => String,
     nullable: true,
   })
-  data?: string | null;
+  job?: string | null;
+
+  @ApiProperty({
+    type: () => Object,
+    nullable: true,
+  })
+  data?: object | null;
 
   @ApiProperty({
     type: () => String,

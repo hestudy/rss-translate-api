@@ -1,6 +1,7 @@
 import { RssOriginDto } from '../../rss-origins/dto/rss-origin.dto';
 
 import {
+  IsJSON,
   IsNotEmptyObject,
   IsOptional,
   // decorators here
@@ -30,10 +31,10 @@ export class CreateRssItemDto {
 
   @ApiProperty({
     required: true,
-    type: () => String,
+    type: () => Object,
   })
-  @IsString()
-  data: string;
+  @IsJSON()
+  data: object;
 
   @ApiProperty({
     required: false,

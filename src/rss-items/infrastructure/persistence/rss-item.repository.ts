@@ -24,4 +24,9 @@ export abstract class RssItemRepository {
   ): Promise<RssItem | null>;
 
   abstract remove(id: RssItem['id']): Promise<void>;
+
+  abstract countByUrlAndRssOrigin(
+    url: RssItem['url'],
+    rssOrigin: RssItem['rssOrigin']['id'],
+  ): Promise<number>;
 }

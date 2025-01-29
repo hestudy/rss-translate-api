@@ -15,7 +15,13 @@ export class RssOriginEntity extends EntityRelationalHelper {
     nullable: true,
     type: String,
   })
-  data?: string | null;
+  job?: string | null;
+
+  @Column({
+    nullable: true,
+    type: 'json',
+  })
+  data?: object | null;
 
   @Column({
     nullable: false,

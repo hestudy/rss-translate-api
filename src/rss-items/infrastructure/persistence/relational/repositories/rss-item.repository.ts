@@ -76,4 +76,18 @@ export class RssItemRelationalRepository implements RssItemRepository {
   async remove(id: RssItem['id']): Promise<void> {
     await this.rssItemRepository.delete(id);
   }
+
+  async countByUrlAndRssOrigin(
+    url: RssItem['url'],
+    rssOrigin: RssItem['rssOrigin']['id'],
+  ): Promise<number> {
+    return await this.rssItemRepository.count({
+      where: {
+        url,
+        rssOrigin: {
+          id: rssOrigin,
+        },
+      },
+    });
+  }
 }

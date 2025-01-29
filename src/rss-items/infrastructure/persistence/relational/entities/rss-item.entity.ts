@@ -19,9 +19,9 @@ export class RssItemEntity extends EntityRelationalHelper {
 
   @Column({
     nullable: false,
-    type: String,
+    type: 'json',
   })
-  data: string;
+  data: object;
 
   @Column({
     nullable: true,

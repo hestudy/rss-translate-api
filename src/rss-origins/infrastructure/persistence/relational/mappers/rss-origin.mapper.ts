@@ -5,6 +5,8 @@ import { RssOriginEntity } from '../entities/rss-origin.entity';
 export class RssOriginMapper {
   static toDomain(raw: RssOriginEntity): RssOrigin {
     const domainEntity = new RssOrigin();
+    domainEntity.job = raw.job;
+
     domainEntity.data = raw.data;
 
     domainEntity.url = raw.url;
@@ -18,6 +20,8 @@ export class RssOriginMapper {
 
   static toPersistence(domainEntity: RssOrigin): RssOriginEntity {
     const persistenceEntity = new RssOriginEntity();
+    persistenceEntity.job = domainEntity.job;
+
     persistenceEntity.data = domainEntity.data;
 
     persistenceEntity.url = domainEntity.url;

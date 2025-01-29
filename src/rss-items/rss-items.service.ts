@@ -1,14 +1,14 @@
-import { RssOriginsService } from '../rss-origins/rss-origins.service';
 import { RssOrigin } from '../rss-origins/domain/rss-origin';
+import { RssOriginsService } from '../rss-origins/rss-origins.service';
 
 import { HttpStatus, UnprocessableEntityException } from '@nestjs/common';
 
 import { Injectable } from '@nestjs/common';
+import { IPaginationOptions } from '../utils/types/pagination-options';
+import { RssItem } from './domain/rss-item';
 import { CreateRssItemDto } from './dto/create-rss-item.dto';
 import { UpdateRssItemDto } from './dto/update-rss-item.dto';
 import { RssItemRepository } from './infrastructure/persistence/rss-item.repository';
-import { IPaginationOptions } from '../utils/types/pagination-options';
-import { RssItem } from './domain/rss-item';
 
 @Injectable()
 export class RssItemsService {
@@ -112,5 +112,12 @@ export class RssItemsService {
 
   remove(id: RssItem['id']) {
     return this.rssItemRepository.remove(id);
+  }
+
+  countByUrlAndRssOrigin(
+    url: RssItem['url'],
+    rssOrigin: RssItem['rssOrigin']['id'],
+  ): Promise<number> {
+    return this.rssItemRepository.countByUrlAndRssOrigin(url, rssOrigin);
   }
 }
