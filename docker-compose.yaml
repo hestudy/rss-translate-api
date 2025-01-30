@@ -1,8 +1,8 @@
 services:
   postgres:
     image: postgres:17.0-alpine
-    ports:
-      - ${DATABASE_PORT}:5432
+    expose:
+      - 5432
     volumes:
       - boilerplate-db:/var/lib/postgresql/data
     environment:
@@ -14,27 +14,26 @@ services:
     build:
       context: .
       dockerfile: maildev.Dockerfile
-    ports:
-      - ${MAIL_CLIENT_PORT}:1080
-      - ${MAIL_PORT}:1025
+    expose:
+      - 1080
+      - 1025
 
   adminer:
     image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
 
   redis:
     image: redis:7-alpine
-    ports:
-      - 6379:6379
+    expose:
+      - 6379
 
   api:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - ${APP_PORT}:${APP_PORT}
+    expose:
+      - ${APP_PORT}
 
 volumes:
   boilerplate-db:
