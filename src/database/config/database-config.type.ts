@@ -14,5 +14,8 @@ export type DatabaseConfig = {
   ca?: string;
   key?: string;
   cert?: string;
-  redisUrl: string;
+  redisHost: string;
+  redisPort: string;
+  redisUsername: string;
+  redisPassword: string;
 };

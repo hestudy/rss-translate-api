@@ -30,9 +30,9 @@ import { RssOriginsModule } from './rss-origins/rss-origins.module';
 
 import { BullModule } from '@nestjs/bullmq';
 import { RssItemsModule } from './rss-items/rss-items.module';
-import { TranslateModule } from './translate/translate.module';
-import { ScrapyModule } from './scrapy/scrapy.module';
 import { RssModule } from './rss/rss.module';
+import { ScrapyModule } from './scrapy/scrapy.module';
+import { TranslateModule } from './translate/translate.module';
 
 @Module({
   imports: [
@@ -42,7 +42,14 @@ import { RssModule } from './rss/rss.module';
       useFactory: (configService: ConfigService<AllConfigType>) => {
         return {
           connection: {
-            url: configService.get('database.redisUrl', { infer: true }),
+            host: configService.get('database.redisHost', { infer: true }),
+            port: configService.get('database.redisPort', { infer: true }),
+            username: configService.get('database.redisUsername', {
+              infer: true,
+            }),
+            password: configService.get('database.redisPassword', {
+              infer: true,
+            }),
           },
         };
       },
